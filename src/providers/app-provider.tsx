@@ -1,63 +1,44 @@
-'use client'
-import { AccountResType } from '@/schemaValidations/account.schema'
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from 'react'
+'use client';
 
-type User = AccountResType['data']
+import { Session, User } from '@/types';
+import { Token } from '@/utils/localStorage';
+import { createContext, useEffect, useState } from 'react';
 
 const AppContext = createContext<{
-  user: User | null
-  setUser: (user: User | null) => void
-  isAuthenticated: boolean
+  user: User | null;
+  setUser: (user: User | null) => void;
+  isAuthenticated: boolean;
 }>({
   user: null,
   setUser: () => {},
-  isAuthenticated: false
-})
-export const useAppContext = () => {
-  const context = useContext(AppContext)
-  return context
-}
-export default function AppProvider({
-  children
-}: {
-  children: React.ReactNode
-}) {
-  const [user, setUserState] = useState<User | null>(() => {
-    // if (isClient()) {
-    //   const _user = localStorage.getItem('user')
-    //   return _user ? JSON.parse(_user) : null
-    // }
-    return null
-  })
-  const isAuthenticated = Boolean(user)
-  const setUser = useCallback(
-    (user: User | null) => {
-      setUserState(user)
-      localStorage.setItem('user', JSON.stringify(user))
-    },
-    [setUserState]
-  )
+  isAuthenticated: false,
+});
+
+function AppProvider({ children }: { children: React.ReactNode }) {
+  const token = new Token();
+  const [user, setUser] = useState<User | null>(() => {
+    const session: Session = token.getSession();
+    return session.user;
+  });
+  const isAuthenticated = Boolean(user);
 
   useEffect(() => {
-    const _user = localStorage.getItem('user')
-    setUserState(_user ? JSON.parse(_user) : null)
-  }, [setUserState])
+    const session: Session = token.getSession();
+    const _user = session.user;
+    setUser(_user);
+  }, []);
 
   return (
     <AppContext.Provider
       value={{
         user,
         setUser,
-        isAuthenticated
+        isAuthenticated,
       }}
     >
       {children}
     </AppContext.Provider>
-  )
+  );
 }
+
+export { AppContext, AppProvider };

@@ -1,0 +1,170 @@
+.session {
+  @apply flex items-center justify-center;
+  min-height: 100vh;
+  background-color: var(--login-bg);
+}
+
+.login {
+  .left {
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    min-height: 75vh;
+  }
+
+  .right {
+    border-radius: 2rem;
+    min-height: 75vh;
+  }
+}
+
+.signup {
+  .left {
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    min-height: 80vh;
+  }
+
+  .right {
+    border-radius: 2rem;
+    min-height: 80vh;
+  }
+}
+
+.form {
+  @apply py-2;
+
+  .label {
+    @apply pb-2;
+    font-size: 0.9rem;
+  }
+
+  .input {
+    @apply w-full py-2 px-3 rounded-md;
+    border: 1px solid var(--input-border);
+  }
+}
+
+.formCheckbox {
+  @apply flex items-center pt-2;
+
+  .input {
+    @apply mr-2;
+  }
+
+  .label {
+  }
+}
+
+.inner {
+  @apply flex items-start;
+  background-color: var(--login-inner-bg);
+  border-radius: 2rem;
+}
+
+.left {
+  padding: 3rem;
+  background-color: var(--login-left-bg);
+
+  .logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--login-left-logo);
+    padding-bottom: 0.75rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .subTitle {
+    @apply pb-6;
+  }
+
+  .method__block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .method__item {
+    @apply flex items-center;
+    border: 1px solid var(--login-left-border);
+    padding: 0.75rem 2.75rem;
+    margin: 0 1rem;
+    border-radius: 7px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .method__item span {
+    padding-right: 0.5rem;
+    color: var(--login-left-fb-bg);
+    font-size: 1.3rem;
+  }
+
+  .method__logo {
+    width: 20px;
+  }
+
+  .divider {
+    @apply py-3;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .btn {
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .btnSubmit {
+    @apply rounded-md px-10 py-2 text-sm font-semibold shadow-sm 
+    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
+    focus-visible:outline-indigo-600 cursor-pointer;
+    background-color: var(--login-left-btn-bg);
+    color: var(--login-left-btn-color);
+  }
+}
+
+.right {
+  background-color: var(--login-right-bg);
+  color: var(--login-right-color);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+
+  .title {
+  }
+
+  .image {
+    width: 400px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.flex_left {
+  width: 40%;
+}
+
+.flex_right {
+  width: 60%;
+}
+
+.error {
+  @apply text-sm;
+  color: var(--login-error-color);
+}
