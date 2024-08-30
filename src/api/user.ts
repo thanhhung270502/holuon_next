@@ -6,7 +6,7 @@ let isRefreshing = false;
 
 let failedQueue: any[] = [];
 
-const baseURL: string = String(process.env.REACT_APP_LOCAL_CLIENT_URL);
+const baseURL: string = String(process.env.REACT_APP_LOCAL_SERVER_URL);
 const token = new Token();
 
 const processQueue = (error: any, token: string | null = null) => {
@@ -65,17 +65,21 @@ const handleErrorResponse = async (error: any) => {
 
     const refreshToken = token.getRefreshToken();
     try {
-      const { data } = await axios.post(`${baseURL}/auth/refresh-token`, {
-        refresh_token: refreshToken,
-      });
+      console.log(refreshToken);
+      const config = {
+        headers: { Authorization: `Bearer ${refreshToken}` },
+      };
 
-      token.setAccessToken(data.access_token);
+      const { data } = await axios.post(`${baseURL}/auth/refresh-token`, null, config);
+      console.log(data.data);
 
-      token.setRefreshToken(data.refresh_token);
+      token.setAccessToken(data.data.accessToken);
 
-      axios.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`;
-      originalRequest.headers['Authorization'] = `Bearer ${data.access_token}`;
-      processQueue(null, data.access_token);
+      token.setRefreshToken(data.data.refreshToken);
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.data.accessToken}`;
+      originalRequest.headers['Authorization'] = `Bearer ${data.data.accessToken}`;
+      processQueue(null, data.data.accessToken);
 
       return axiosClient(originalRequest);
     } catch (err) {
@@ -95,6 +99,18 @@ const handleError = (error: any) => {
   const { data } = error.response;
   console.error({ error });
   return data;
+};
+
+export const getInfo = async () => {
+  return await axiosClient
+    .get(`${process.env.REACT_APP_LOCAL_SERVER_URL}/auth/me`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+      return error.response;
+    });
 };
 
 export default axiosClient;

@@ -18,12 +18,14 @@ function AppProvider({ children }: { children: React.ReactNode }) {
   const token = new Token();
   const [user, setUser] = useState<User | null>(() => {
     const session: Session = token.getSession();
-    return session.user;
+    if (session) return session.user;
+    else return null;
   });
   const isAuthenticated = Boolean(user);
 
   useEffect(() => {
     const session: Session = token.getSession();
+    if (!session) return;
     const _user = session.user;
     setUser(_user);
   }, []);

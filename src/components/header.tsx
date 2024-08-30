@@ -31,6 +31,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { usePathname, useRouter } from 'next/navigation';
 import { AppContext } from '@/providers/app-provider';
 import { ModeToggle } from '@/components/mode-toggle';
+import { getInfo } from '@/api/user';
 
 export default function Header() {
   const { user } = useContext(AppContext);
@@ -67,6 +68,11 @@ export default function Header() {
     localStorage.setItem('session', '');
     router.push('/');
     router.refresh();
+  };
+
+  const test = async () => {
+    const fetchInfo = await getInfo();
+    console.log(fetchInfo);
   };
 
   useEffect(() => {}, []);
@@ -184,15 +190,15 @@ export default function Header() {
                           <ModeToggle />
                         </MenuItem>
                         <MenuItem>
-                          <a
-                            href="#"
+                          <div
+                            onClick={test}
                             className="flex items-center px-4 py-3 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
                           >
                             <div className={clsx(styles.dropdownItem__icon)}>
                               <FontAwesomeIcon icon={faShop as IconProp} />
                             </div>
-                            <div className={clsx(styles.dropdownItem__text)}>Shop</div>
-                          </a>
+                            <div className={clsx(styles.dropdownItem__text)}>Test</div>
+                          </div>
                         </MenuItem>
                       </div>
                       <div className="py-1">
@@ -208,15 +214,15 @@ export default function Header() {
                           </a>
                         </MenuItem>
                         <MenuItem>
-                          <a
-                            href="#"
+                          <div
                             className="flex items-center px-4 py-3 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                            onClick={handleLogout}
                           >
                             <div className={clsx(styles.dropdownItem__icon)}>
-                              <FontAwesomeIcon icon={faShop as IconProp} />
+                              <FontAwesomeIcon icon={faRightFromBracket as IconProp} />
                             </div>
-                            <div className={clsx(styles.dropdownItem__text)}>Shop</div>
-                          </a>
+                            <div className={clsx(styles.dropdownItem__text)}>Logout</div>
+                          </div>
                         </MenuItem>
                       </div>
                     </MenuItems>
